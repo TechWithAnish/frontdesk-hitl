@@ -18,3 +18,11 @@ def get_knowledge(question):
     result = c.fetchone()
     conn.close()
     return result["answer"] if result else None
+
+def get_all_knowledge():
+    conn = get_db()
+    c = conn.cursor()
+    c.execute("SELECT question, answer, updated_at FROM knowledge_base")
+    results = c.fetchall()
+    conn.close()
+    return results
