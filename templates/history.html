@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Request History</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background-color: #f2f2f2; }
+        a { margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Request History</h1>
+    <a href="{{ url_for('index') }}">Back to Dashboard</a>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Question</th>
+            <th>Caller ID</th>
+            <th>Status</th>
+            <th>Answer</th>
+            <th>Created At</th>
+            <th>Resolved At</th>
+        </tr>
+        {% for req in requests %}
+        <tr>
+            <td>{{ req.id }}</td>
+            <td>{{ req.question }}</td>
+            <td>{{ req.caller_id }}</td>
+            <td>{{ req.status }}</td>
+            <td>{{ req.answer or '' }}</td>
+            <td>{{ req.created_at }}</td>
+            <td>{{ req.resolved_at or '' }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

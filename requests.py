@@ -35,3 +35,11 @@ def get_pending_requests():
     results = c.fetchall()
     conn.close()
     return results
+
+def get_request_history():
+    conn = get_db()
+    c = conn.cursor()
+    c.execute("SELECT * FROM help_requests")
+    results = c.fetchall()
+    conn.close()
+    return results
