@@ -7,11 +7,20 @@
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; }
         th { background-color: #f2f2f2; }
+        .error { color: red; }
+        .success { color: green; }
     </style>
 </head>
 <body>
     <h1>Supervisor Dashboard</h1>
     <h2>Pending Requests</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="{{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <table>
         <tr><th>ID</th><th>Question</th><th>Caller ID</th><th>Created At</th><th>Action</th></tr>
         {% for req in requests %}

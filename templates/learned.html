@@ -8,12 +8,21 @@
         th, td { border: 1px solid #ddd; padding: 8px; }
         th { background-color: #f2f2f2; }
         a { margin-right: 10px; }
+        .error { color: red; }
+        .success { color: green; }
     </style>
 </head>
 <body>
     <h1>Learned Answers</h1>
     <a href="{{ url_for('index') }}">Back to Dashboard</a>
     <a href="{{ url_for('history') }}">View History</a>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="{{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <table>
         <tr>
             <th>Question</th>
