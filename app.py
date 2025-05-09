@@ -1,12 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for
 from database import init_db
-from requests import get_pending_requests, resolve_help_request, get_request_history
+from requests import get_pending_requests, resolve_help_request, get_request_history, check_timeouts
 from knowledge import get_all_knowledge, add_knowledge
 
 app = Flask(__name__)
 
 @app.route("/")
 def index():
+    check_timeouts()
     requests = get_pending_requests()
     return render_template("index.html", requests=requests)
 
@@ -19,6 +20,7 @@ def resolve(request_id):
 
 @app.route("/history")
 def history():
+    check_timeouts()
     requests = get_request_history()
     return render_template("history.html", requests=requests)
 

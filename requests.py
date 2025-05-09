@@ -1,5 +1,5 @@
 from database import get_db
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def create_help_request(question, caller_id):
     conn = get_db()
@@ -43,3 +43,21 @@ def get_request_history():
     results = c.fetchall()
     conn.close()
     return results
+
+def check_timeouts():
+    conn = get_db()
+    c = conn.cursor()
+    timeout_threshold = (datetime.now() - timedelta(minutes=5)).isoformat()
+    c.execute(
+        "SELECT id, question, caller_id FROM help_requests WHERE status = ? AND created_at < ?",
+        ("Pending", timeout_threshold)
+    )
+    timed_out = c.fetchall()
+    for request in timed_out:
+        c.execute(
+            "UPDATE help_requests SET status = ?, resolved_at = ? WHERE id = ?",
+            ("Unresolved", datetime.now().isoformat(), request["id"])
+        )
+        print(f"Text to caller {request['caller_id']}: Sorry, we couldn't answer '{request['question']}' in time.")
+    conn.commit()
+    conn.close()
