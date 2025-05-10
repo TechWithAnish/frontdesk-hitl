@@ -3,15 +3,104 @@
 <head>
     <title>Supervisor Dashboard</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .error { color: red; }
-        .success { color: green; }
-        nav { margin-bottom: 20px; }
-        nav a { margin-right: 15px; text-decoration: none; color: #007BFF; }
-        nav a:hover { text-decoration: underline; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        nav {
+            background-color: #007BFF;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+            font-weight: 500;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        h1 {
+            font-size: 28px;
+            color: #2c3e50;
+        }
+        h2 {
+            font-size: 20px;
+            color: #34495e;
+            margin-top: 20px;
+        }
+        .error {
+            color: #e74c3c;
+            background-color: #fceae9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .success {
+            color: #27ae60;
+            background-color: #e8f7ed;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #34495e;
+            color: white;
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #f1f3f5;
+        }
+        form {
+            display: inline-block;
+        }
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+            width: 200px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .call-form {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .call-form label {
+            margin-right: 10px;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -21,6 +110,16 @@
         <a href="{{ url_for('learned') }}">Learned Answers</a>
     </nav>
     <h1>Supervisor Dashboard</h1>
+    <div class="call-form">
+        <h2>Simulate a Call</h2>
+        <form action="{{ url_for('simulate_call') }}" method="post">
+            <label for="caller_id">Caller ID:</label>
+            <input type="text" name="caller_id" placeholder="e.g., caller123" required>
+            <label for="question">Question:</label>
+            <input type="text" name="question" placeholder="e.g., What are your hours?" required>
+            <button type="submit">Simulate Call</button>
+        </form>
+    </div>
     <h2>Pending Requests</h2>
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -30,7 +129,13 @@
         {% endif %}
     {% endwith %}
     <table>
-        <tr><th>ID</th><th>Question</th><th>Caller ID</th><th>Created At</th><th>Action</th></tr>
+        <tr>
+            <th>ID</th>
+            <th>Question</th>
+            <th>Caller ID</th>
+            <th>Created At</th>
+            <th>Action</th>
+        </tr>
         {% for req in requests %}
         <tr>
             <td>{{ req.id }}</td>
@@ -39,7 +144,7 @@
             <td>{{ req.created_at }}</td>
             <td>
                 <form action="{{ url_for('resolve', request_id=req.id) }}" method="post">
-                    <input type="text" name="answer" required>
+                    <input type="text" name="answer" placeholder="Enter answer" required>
                     <button type="submit">Resolve</button>
                 </form>
             </td>
