@@ -1,4 +1,5 @@
 __pycache__/
 *.pyc
-frontdesk.db
-development.env
+*.db
+venv/
+.env
