@@ -34,7 +34,7 @@ Follow these steps to set up and run the project locally:
 
 1. **Clone the Repository**:
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/TechWithAnish/frontdesk-hitl
    cd frontdesk-hitl
    ```
 
@@ -145,8 +145,9 @@ The system supports two main workflows: simulating calls via the AI agent and ma
   - Deploy Flask with a load balancer to handle increased traffic.
 
 ## Deliverables
-- **GitHub Repository**: <your-repo-url>
-- **Video Demo**: <your-video-link>
+- **GitHub Repository**: https://github.com/TechWithAnish/frontdesk-hitl
+
+- **Video Demo**: https://drive.google.com/drive/u/0/folders/1DaeEM3gEe_WjXtTqb6AQOGoNB9qvKJVZ
   - A 5-7 minute screen recording showcasing:
     - Simulating calls via UI and command line.
     - Resolving requests with flash messages.
@@ -172,5 +173,3 @@ As a fresher, I gained valuable skills through this project:
 - LiveKit integration is mocked via console logs as per project constraints.
 - Timeout threshold is set to 5 minutes.
 - Tested on Python 3.8+ with Flask 2.3.2 and livekit-api.
-
-Submitted by Anish, May 11, 2025.
