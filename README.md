@@ -161,7 +161,7 @@ As a fresher, I gained valuable skills through this project:
 - **Database Management**: Understood SQLite schema design, queries, and error handling.
 - **Debugging**: Fixed issues like schema mismatches, module imports, and UI rendering.
 - **System Design**: Designed a modular system with clear separation of concerns.
-- **Time Management**: Balanced speed and structure over a 7-day timeline.
+- **Time Management**: Balanced speed and structure over 2 months timeline.
 
 ## Potential Improvements
 - **Real LiveKit Integration**: Implement actual LiveKit calls for Phase 2, enabling live transfers and on-hold functionality.
