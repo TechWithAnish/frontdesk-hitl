@@ -1,31 +1,45 @@
 import sqlite3
+from datetime import datetime
+
+DATABASE = 'salon.db'
+
+def get_db():
+    """Get database connection."""
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 def init_db():
-    conn = sqlite3.connect("frontdesk.db")
-    c = conn.cursor()
-    c.execute("""
+    """Initialize the database with required tables."""
+    conn = get_db()
+    cursor = conn.cursor()
+    
+    # Create help_requests table
+    cursor.execute('''
         CREATE TABLE IF NOT EXISTS help_requests (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             question TEXT NOT NULL,
             caller_id TEXT NOT NULL,
-            status TEXT NOT NULL,
-            created_at TEXT NOT NULL,
-            resolved_at TEXT,
-            answer TEXT
+            status TEXT DEFAULT 'pending',
+            answer TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            resolved_at TIMESTAMP
         )
-    """)
-    c.execute("""
+    ''')
+    
+    # Create knowledge_base table
+    cursor.execute('''
         CREATE TABLE IF NOT EXISTS knowledge_base (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             question TEXT NOT NULL,
             answer TEXT NOT NULL,
-            updated_at TEXT NOT NULL
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
-    """)
+    ''')
+    
     conn.commit()
     conn.close()
+    print("Database initialized successfully!")
 
-def get_db():
-    conn = sqlite3.connect("frontdesk.db")
-    conn.row_factory = sqlite3.Row
-    return conn
+if __name__ == '__main__':
+    init_db()

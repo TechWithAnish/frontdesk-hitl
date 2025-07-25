@@ -1,155 +1,82 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Supervisor Dashboard</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f7fa;
-            color: #333;
-        }
-        nav {
-            background-color: #007BFF;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-right: 20px;
-            font-weight: 500;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        h1 {
-            font-size: 28px;
-            color: #2c3e50;
-        }
-        h2 {
-            font-size: 20px;
-            color: #34495e;
-            margin-top: 20px;
-        }
-        .error {
-            color: #e74c3c;
-            background-color: #fceae9;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-        .success {
-            color: #27ae60;
-            background-color: #e8f7ed;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #34495e;
-            color: white;
-            font-weight: 600;
-        }
-        tr:hover {
-            background-color: #f1f3f5;
-        }
-        form {
-            display: inline-block;
-        }
-        input[type="text"] {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-right: 10px;
-            width: 200px;
-        }
-        button {
-            padding: 8px 15px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .call-form {
-            background-color: white;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        .call-form label {
-            margin-right: 10px;
-            font-weight: 500;
-        }
-    </style>
-</head>
-<body>
-    <nav>
-        <a href="{{ url_for('index') }}">Dashboard</a>
-        <a href="{{ url_for('history') }}">History</a>
-        <a href="{{ url_for('learned') }}">Learned Answers</a>
-    </nav>
-    <h1>Supervisor Dashboard</h1>
-    <div class="call-form">
-        <h2>Simulate a Call</h2>
-        <form action="{{ url_for('simulate_call') }}" method="post">
-            <label for="caller_id">Caller ID:</label>
-            <input type="text" name="caller_id" placeholder="e.g., caller123" required>
-            <label for="question">Question:</label>
-            <input type="text" name="question" placeholder="e.g., What are your hours?" required>
-            <button type="submit">Simulate Call</button>
-        </form>
-    </div>
-    <h2>Pending Requests</h2>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <p class="{{ category }}">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Question</th>
-            <th>Caller ID</th>
-            <th>Created At</th>
-            <th>Action</th>
-        </tr>
-        {% for req in requests %}
-        <tr>
-            <td>{{ req.id }}</td>
-            <td>{{ req.question }}</td>
-            <td>{{ req.caller_id }}</td>
-            <td>{{ req.created_at }}</td>
-            <td>
-                <form action="{{ url_for('resolve', request_id=req.id) }}" method="post">
-                    <input type="text" name="answer" placeholder="Enter answer" required>
-                    <button type="submit">Resolve</button>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <!-- Call Simulator -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5><i class="fas fa-phone me-2"></i>Simulate Customer Call</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('simulate_call') }}">
+                    <div class="mb-3">
+                        <label for="caller_id" class="form-label">Caller ID</label>
+                        <input type="text" class="form-control" id="caller_id" name="caller_id" 
+                               placeholder="e.g., caller_123" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="question" class="form-label">Customer Question</label>
+                        <textarea class="form-control" id="question" name="question" rows="3" 
+                                  placeholder="What would the customer ask?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-phone me-2"></i>Make Call
+                    </button>
                 </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-</body>
-</html>
+                
+                <hr>
+                <h6>Quick Test Questions:</h6>
+                <div class="d-flex flex-wrap gap-2">
+                    <button class="btn btn-outline-secondary btn-sm" onclick="setQuestion('What are your hours?')">Hours</button>
+                    <button class="btn btn-outline-secondary btn-sm" onclick="setQuestion('What services do you offer?')">Services</button>
+                    <button class="btn btn-outline-secondary btn-sm" onclick="setQuestion('What is the parking policy?')">Parking</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Requests -->
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5><i class="fas fa-clock me-2"></i>Pending Requests ({{ requests|length }})</h5>
+            </div>
+            <div class="card-body">
+                {% if requests %}
+                    {% for req in requests %}
+                    <div class="border rounded p-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <strong>{{ req.caller_id }}</strong>
+                            <small class="text-muted">{{ req.created_at }}</small>
+                        </div>
+                        <p class="mb-2">{{ req.question }}</p>
+                        <form method="POST" action="{{ url_for('resolve', request_id=req.id) }}">
+                            <div class="mb-2">
+                                <textarea name="answer" class="form-control" rows="2" 
+                                          placeholder="Your answer..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fas fa-check me-1"></i>Resolve
+                            </button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center text-muted">
+                        <i class="fas fa-check-circle fa-3x mb-3"></i>
+                        <p>No pending requests!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function setQuestion(question) {
+    document.getElementById('question').value = question;
+    document.getElementById('caller_id').value = 'caller_' + Math.random().toString(36).substr(2, 6);
+}
+</script>
+{% endblock %}

@@ -1,98 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Learned Answers</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f7fa;
-            color: #333;
-        }
-        nav {
-            background-color: #007BFF;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-right: 20px;
-            font-weight: 500;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        h1 {
-            font-size: 28px;
-            color: #2c3e50;
-        }
-        .error {
-            color: #e74c3c;
-            background-color: #fceae9;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-        .success {
-            color: #27ae60;
-            background-color: #e8f7ed;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #34495e;
-            color: white;
-            font-weight: 600;
-        }
-        tr:hover {
-            background-color: #f1f3f5;
-        }
-    </style>
-</head>
-<body>
-    <nav>
-        <a href="{{ url_for('index') }}">Dashboard</a>
-        <a href="{{ url_for('history') }}">History</a>
-        <a href="{{ url_for('learned') }}">Learned Answers</a>
-    </nav>
-    <h1>Learned Answers</h1>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <p class="{{ category }}">{{ message }}</p>
-            {% endfor %}
+{% extends "base.html" %}
+
+{% block title %}Knowledge Base{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-success text-white">
+        <h5><i class="fas fa-book me-2"></i>Learned Knowledge Base</h5>
+    </div>
+    <div class="card-body">
+        {% if knowledge %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Answer</th>
+                        <th>Added</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in knowledge %}
+                    <tr>
+                        <td>{{ item.question }}</td>
+                        <td>{{ item.answer }}</td>
+                        <td>{{ item.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="text-center text-muted">
+                <i class="fas fa-book-open fa-3x mb-3"></i>
+                <p>No knowledge entries yet!</p>
+            </div>
         {% endif %}
-    {% endwith %}
-    <table>
-        <tr>
-            <th>Question</th>
-            <th>Answer</th>
-            <th>Updated At</th>
-        </tr>
-        {% for item in knowledge %}
-        <tr>
-            <td>{{ item.question }}</td>
-            <td>{{ item.answer }}</td>
-            <td>{{ item.updated_at }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-</body>
-</html>
+    </div>
+</div>
+{% endblock %}

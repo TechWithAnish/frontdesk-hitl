@@ -20,12 +20,16 @@ This project builds the foundation for an AI receptionist system at Frontdesk, d
 - `database.py`: Sets up and manages SQLite database connections and schema.
 - `requests.py`: Manages help request lifecycle (create, resolve, timeout) and mocked LiveKit notifications.
 - `knowledge.py`: Handles knowledge base updates and retrieval.
-- `templates/`: HTML templates for the UI:
+- `templates/`:
+  - `base.html`: Base template with navigation and styling.
   - `index.html`: Dashboard for simulating calls and resolving pending requests.
   - `history.html`: Displays request history.
   - `learned.html`: Shows learned answers.
-- `frontdesk.db`: SQLite database file storing help requests and knowledge base.
-- `requirements.txt`: Lists Python dependencies (e.g., Flask, livekit-api).
+- `static/`:
+  - `css/style.css`: Stylesheet for UI.
+  - `js/main.js`: JavaScript for frontend interactivity.
+- `salon.db`: SQLite database file storing help requests and knowledge base.
+- `requirements.txt`: Lists Python dependencies (e.g., Flask, Werkzeug, livekit-api).
 - `test_timeout.py`, `manual_timeout.py`: Scripts for testing timeout functionality.
 - `check_db.py`: Utility to inspect database contents.
 
@@ -36,7 +40,6 @@ Follow these steps to set up and run the project locally:
    ```bash
    git clone https://github.com/TechWithAnish/frontdesk-hitl
    cd frontdesk-hitl
-   ```
 
 2. **Create and Activate a Virtual Environment**:
    ```bash
@@ -161,7 +164,7 @@ As a fresher, I gained valuable skills through this project:
 - **Database Management**: Understood SQLite schema design, queries, and error handling.
 - **Debugging**: Fixed issues like schema mismatches, module imports, and UI rendering.
 - **System Design**: Designed a modular system with clear separation of concerns.
-- **Time Management**: Balanced speed and structure over a 7-day timeline.
+- **Time Management**: Balanced speed and structure over 2 months timeline.
 
 ## Potential Improvements
 - **Real LiveKit Integration**: Implement actual LiveKit calls for Phase 2, enabling live transfers and on-hold functionality.

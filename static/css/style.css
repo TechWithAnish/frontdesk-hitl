@@ -1,0 +1,42 @@
+body {
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+}
+
+.container {
+    overflow-y: auto;
+    max-height: 100vh; /* Optional: Limits height to viewport, adjust as needed */
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.card-header {
+    border-bottom: none;
+    font-weight: 600;
+}
+
+.btn {
+    border-radius: 0.375rem;
+}
+
+.alert {
+    border-radius: 0.5rem;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.status-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.status-pending { background-color: #ffc107; }
+.status-resolved { background-color: #198754; }
+.status-unresolved { background-color: #dc3545; }
