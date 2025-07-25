@@ -174,5 +174,5 @@ As a fresher, I gained valuable skills through this project:
 
 ## Notes
 - LiveKit integration is mocked via console logs as per project constraints.
-- Timeout threshold is set to 5 minutes.
+- Timeout threshold is set to 1 minute.
 - Tested on Python 3.8+ with Flask 2.3.2 and livekit-api.
